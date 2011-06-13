@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="about_title">
+		<b><![CDATA[About & Help]]></b>
+	</string>
+	<string name="about_text">\
+ 		1. Touch screen and mouse
+		moves. \n
+		2. Rat cheese
+		moves to push the gray warehouse. \n
+		3. Put all
+		the cheese in the
+		warehouse is successful.\n
+		\n
+		- The cheese turns
+		orange enters the
+		warehouse.\n
+		- I do not put cheese containing
+		place.\n
+		- The cheese can
+		be pushed one at a time.\n
+		\n
+		## Rules ##\n
+		1.
+		Play the process of moving
+		a successful level of cheese stored in a
+		database that can be seen to
+		play in the future.\n
+		2. The previous
+		level of success, can be moved to
+		a later stage, a level
+		that can not
+		move otherwise.\n
+		3. The reason the
+		option to cancel the move of mice
+		can handle up to 6
+		times may be
+		revoked.\n
+		\n
+		\n
+		2010.02.10\n
+
+ 		1. 화면을 터치하여 쥐를 이동시킨다.\n
+		2. 쥐로 치즈를 밀어 회색창고로 이동시킨다.\n
+		3. 모든 치즈를 창고에 넣으면 성공이다.\n
+		\n
+		- 치즈가 들어가면 창고가 오렌지색으로 변한다.\n
+		- 이미 치즈가 들어있는
+		곳은 넣지 못한다.\n
+		- 치즈는 한번에 하나 씩만 밀 수 있다.\n
+		\n
+		= 규칙 =\n
+		1. 치즈이동이 성공한 레벨의 Play
+		과정은 데이터베이스에 저장되어 나중에 재생시켜 볼 수 있다.\n
+		2. 성공한 레벨은 이전, 이후 단계로 이동이 가능하나 그렇지
+		않은 레벨은 이동할 수 없다.\n
+		3. 쥐의 이동을 취소하는것은 옵션으로 처리할 수 있으며 최대 6번까지 취소할 수 있다.\n
+		\n
+		\n
+		## http://translate.google.co.kr ##
+		\n
+</string>
+</resources>

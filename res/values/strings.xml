@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="mode_ready">Ready!!</string>
+	<string name="mode_pause">Press Up To Resume</string>
+	<string name="mode_lose_prefix">Game Over\nScore: </string>
+	<string name="mode_lose_suffix">\nPress Up To Play</string>
+	<string name="btn_Start_Caption">Start</string>
+	<string name="apptitle">Storekeeper</string>
+
+	<string name="empty_string"></string>
+
+	<string name="new_game_title">Difficulty</string>
+	<string name="easy_label">Easy</string>
+	<string name="medium_label">Medium</string>
+	<string name="hard_label">Hard</string>
+
+	<string name="settings_label">Settings...</string>
+	<string name="settings_title">Game Settings</string>
+	<string name="settings_shortcut">s</string>
+	<string name="music_title">Music</string>
+	<string name="music_summary">Play background music?</string>
+	<string name="cancel_title">Cancel</string>
+	<string name="cancel_summary">Return to the previous step, you want to use?</string>
+
+	<!-- Message  -->
+	<string name="msg_clear">Level Clear!!</string>
+	<string name="msg_ending">The End!!</string>
+	<string name="msg_notfoundsavedata">There are no records saved.</string>
+	<string name="change_iconsize">Icon size auto change is </string>
+	<string name="notfound_playback">Can not find revert step.</string>
+	<string name="saved_step_play">Play the step is stored</string>
+	<string name="cancel_step_play">Return to reverse a step</string>
+	<string name="about_help_label"><![CDATA[About & Help]]></string>
+
+	<!-- Button  -->
+	<string name="continue_label">Continue</string>
+	<string name="new_game_label">New Game</string>
+	<string name="prev_level">Prev Level</string>
+	<string name="next_level">Next Level</string>
+
+	<string name="reload_level">Reload Level</string>
+	<string name="save_level">Save Level</string>
+	<string name="play_level">Play Level</string>
+
+
+
+	<string name="alert_title">
+		<b>Congratulation~</b>
+	</string>
+	<string name="alert_text">
+		\
+		<H>Storekeeper</H>
+		\n
+		<b>Level Clear !!!</b>
+	</string>
+
+
+	<string name="title_list_preference">Icon Size</string>
+	<string name="summary_list_preference">In order to apply the changes and restart.</string>
+	<string name="dialog_title_list_preference">List of sizes available</string>
+
+
+</resources>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<!--
+		! Excerpted from "Hello, Android!", ! published by The Pragmatic
+		Bookshelf. ! Copyrights apply to this code. It may not be used to
+		create training material, ! courses, books, articles, and the like.
+		Contact us if you are in doubt. ! We make no guarantees that this code
+		is fit for any purpose. ! Visit
+		http://www.pragmaticprogrammer.com/titles/eband for more book
+		information.
+	-->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+	<CheckBoxPreference android:key="music"
+		android:title="@string/music_title" android:summary="@string/music_summary"
+		android:defaultValue="true" />
+	<CheckBoxPreference android:key="playback"
+		android:title="@string/cancel_title" android:summary="@string/cancel_summary"
+		android:defaultValue="true" />
+	<ListPreference android:key="iconsize"
+		android:title="@string/title_list_preference" android:summary="@string/summary_list_preference"
+		android:entries="@array/entries_list_preference" android:entryValues="@array/entryvalues_list_preference"
+		android:dialogTitle="@string/dialog_title_list_preference" />
+
+</PreferenceScreen>

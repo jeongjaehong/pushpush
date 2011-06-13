@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<!--
+		! Excerpted from "Hello, Android!", ! published by The Pragmatic
+		Bookshelf. ! Copyrights apply to this code. It may not be used to
+		create training material, ! courses, books, articles, and the like.
+		Contact us if you are in doubt. ! We make no guarantees that this code
+		is fit for any purpose. ! Visit
+		http://www.pragmaticprogrammer.com/titles/eband for more book
+		information.
+	-->
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+	<item android:id="@+id/prevlevel" android:title="@string/prev_level"
+		android:icon="@android:drawable/ic_media_rew" />
+
+	<item android:id="@+id/nextlevel" android:title="@string/next_level"
+		android:icon="@android:drawable/ic_media_ff" />
+
+	<item android:id="@+id/playback" android:title="@string/cancel_step_play"
+		android:icon="@android:drawable/ic_menu_revert" />
+
+	<item android:id="@+id/newgame" android:title="@string/new_game_label"
+		android:icon="@android:drawable/ic_menu_agenda" />
+
+	<item android:id="@+id/playlevel" android:title="@string/play_level"
+		android:icon="@android:drawable/ic_media_play" />
+
+
+	<item android:id="@+id/reloadlevel" android:title="@string/reload_level"
+		android:icon="@android:drawable/ic_menu_revert" />
+
+	<item android:id="@+id/settings" android:title="@string/settings_label"
+		android:icon="@android:drawable/ic_menu_preferences"
+		android:alphabeticShortcut="@string/settings_shortcut" />
+</menu>
