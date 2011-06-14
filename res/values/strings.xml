@@ -5,7 +5,7 @@
 	<string name="mode_lose_prefix">Game Over\nScore: </string>
 	<string name="mode_lose_suffix">\nPress Up To Play</string>
 	<string name="btn_Start_Caption">Start</string>
-	<string name="apptitle">Storekeeper</string>
+	<string name="apptitle">PushPush!!!</string>
 
 	<string name="empty_string"></string>
 
@@ -29,18 +29,18 @@
 	<string name="change_iconsize">Icon size auto change is </string>
 	<string name="notfound_playback">Can not find revert step.</string>
 	<string name="saved_step_play">Play the step is stored</string>
-	<string name="cancel_step_play">Return to reverse a step</string>
+	<string name="cancel_step_play">Back</string>
 	<string name="about_help_label"><![CDATA[About & Help]]></string>
 
 	<!-- Button  -->
 	<string name="continue_label">Continue</string>
-	<string name="new_game_label">New Game</string>
-	<string name="prev_level">Prev Level</string>
-	<string name="next_level">Next Level</string>
+	<string name="new_game_label">Difficulty</string>
+	<string name="prev_level">Prev</string>
+	<string name="next_level">Next</string>
 
-	<string name="reload_level">Reload Level</string>
-	<string name="save_level">Save Level</string>
-	<string name="play_level">Play Level</string>
+	<string name="reload_level">Reload</string>
+	<string name="save_level">Save</string>
+	<string name="play_level">Play</string>
 
 
 

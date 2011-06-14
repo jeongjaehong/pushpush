@@ -2,12 +2,10 @@ package com.nilriri.android.Storekeeper.dao;
 
 import android.provider.BaseColumns;
 
-/**
- * Convenience definitions for NotePadProvider
- */
+
 public final class Constants {
     public static final String DATABASE_NAME = "storekeeper.sqlite";
-    public static final int DATABASE_VERSION = 2;
+    public static final int DATABASE_VERSION = 3;
 
     public static final String DEFAULT_SORT_ORDER = "_id DESC";
 
@@ -16,14 +14,15 @@ public final class Constants {
     }
 
     /**
-     * BSite1 table
+     * HistoryData table
      */
-    public static final class BSite1 implements BaseColumns {
+    public static final class HistoryData implements BaseColumns {
         // This class cannot be instantiated
-        private BSite1() {
+        private HistoryData() {
         }
 
-        public static final String VERSION_TABLE_NAME = "history";
+        public static final String HISTORY_TABLE_NAME = "history";
+        public static final String BACKUP_TABLE_NAME = "backup";
 
         public static final String _ID = "_id";
         public static final String DIFFICULTY = "difficulty";

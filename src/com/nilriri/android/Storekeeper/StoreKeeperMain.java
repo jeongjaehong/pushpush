@@ -10,6 +10,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -63,11 +64,11 @@ public class StoreKeeperMain extends Activity implements OnTouchListener {
         }).show();
     }
 
-    private void StartGame(int difficulty, int maxLevel, int offSet) {
+    public void StartGame(int difficulty, int playLevel, int offSet) {
         //Log.e("StoreKeeperView", "difficulty : " + difficulty);
         //Log.e("StoreKeeperView", "difficulty : " + difficulty);
         mStoreKeeperView.setMode(StoreKeeperView.READY);
-        mStoreKeeperView.startGame(difficulty, maxLevel, offSet);
+        mStoreKeeperView.startGame(difficulty, playLevel, offSet);
         mStoreKeeperView.setMode(StoreKeeperView.RUNNING);
 
         if (Prefs.getMusic(this)) {
@@ -84,7 +85,7 @@ public class StoreKeeperMain extends Activity implements OnTouchListener {
         setContentView(R.layout.main);
 
         mStoreKeeperView = (StoreKeeperView) findViewById(R.id.warehouseman);
-        mStoreKeeperView.setMsgView((TextView) findViewById(R.id.msg));
+        mStoreKeeperView.setMsgView((TextView) findViewById(R.id.msg), (TextView) findViewById(R.id.info));
 
         //Log.e("StoreKeeperView", "fileList : " + this.fileList().toString());
 
@@ -94,6 +95,11 @@ public class StoreKeeperMain extends Activity implements OnTouchListener {
             Bundle map = savedInstanceState.getBundle(Common.ICICLE_KEY);
             if (map != null) {
                 mStoreKeeperView.restoreState(map);
+
+                // 저장된 맵 데이터가 정상적으로 복원되지 않으면 처음부터 다시 시작하도록 한다.
+                if (this.mStoreKeeperView.mStorekeeper == null) {
+                    StartGame(Prefs.getDifficultly(this), Prefs.getMaxLevel(this), 0);
+                }
             } else {
                 mStoreKeeperView.setMode(StoreKeeperView.PAUSE);
             }
@@ -115,6 +121,9 @@ public class StoreKeeperMain extends Activity implements OnTouchListener {
             case MotionEvent.ACTION_UP:
                 float xoffset = event.getX() - oldEvent.getX();
                 float yoffset = event.getY() - oldEvent.getY();
+
+                Vibrator vi = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
+                vi.vibrate(new long[] { 250 }, 0);
 
                 if (xoffset > 10 && Math.abs(xoffset) > Math.abs(yoffset)) {
                     mStoreKeeperView.mNextDirection = Common.RIGHT;
@@ -145,7 +154,9 @@ public class StoreKeeperMain extends Activity implements OnTouchListener {
                 }
                 // 초기화.
                 oldEvent.set(event.getX(), event.getY());
-                mStoreKeeperView.moveStorekeeper(false);
+                if (!mStoreKeeperView.moveStorekeeper(false)) {
+                    vi.vibrate(new long[] { 250, 50, 100 }, 2);
+                }
                 mStoreKeeperView.update();
                 break;
             default:
@@ -172,33 +183,15 @@ public class StoreKeeperMain extends Activity implements OnTouchListener {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        //int difficulty = getPreferences(MODE_PRIVATE).getInt(Common.PREF_KEY3, Common.MEDIUM);
-        int difficulty = Prefs.getDifficultly(this);
-
-        int maxLevel = 1;
-        switch (difficulty) {
-            case 0:
-                maxLevel = Prefs.getMaxLevel(this);
-                //maxLevel = getPreferences(MODE_PRIVATE).getInt(Common.PREF_KEY0, 1);
-                break;
-            case 1:
-                maxLevel = Prefs.getMaxLevel(this);
-                //maxLevel = getPreferences(MODE_PRIVATE).getInt(Common.PREF_KEY1, 1);
-                break;
-            case 2:
-                maxLevel = Prefs.getMaxLevel(this);
-                //maxLevel = getPreferences(MODE_PRIVATE).getInt(Common.PREF_KEY2, 1);
-                break;
-        }
 
         switch (item.getItemId()) {
 
             case MENU_ITEM_RELOADLEVEL:
-                StartGame(difficulty, maxLevel, 0);
+                StartGame(Prefs.getDifficultly(this), Prefs.getMaxLevel(this), 0);
                 return true;
             case MENU_ITEM_PLAY: {
 
-                mStoreKeeperView.playHistory(difficulty, mStoreKeeperView.getLevel());
+                mStoreKeeperView.playHistory(Prefs.getDifficultly(this), mStoreKeeperView.getLevel());
                 return true;
             }
             case MENU_ITEM_ABOUT: {
@@ -312,15 +305,15 @@ public class StoreKeeperMain extends Activity implements OnTouchListener {
             int difficulty = Prefs.getDifficultly(this);
             switch (difficulty) {
                 case 0:
-                    Prefs.setMaxLevel(this,  mStoreKeeperView.getLeft());
+                    Prefs.setMaxLevel(this, mStoreKeeperView.getLeft());
                     //getPreferences(MODE_PRIVATE).edit().putInt(Common.PREF_KEY0, mStoreKeeperView.getLeft()).commit();
                     break;
                 case 1:
-                    Prefs.setMaxLevel(this,  mStoreKeeperView.getLeft());
+                    Prefs.setMaxLevel(this, mStoreKeeperView.getLeft());
                     //getPreferences(MODE_PRIVATE).edit().putInt(Common.PREF_KEY1, mStoreKeeperView.getLeft()).commit();
                     break;
                 case 2:
-                    Prefs.setMaxLevel(this,  mStoreKeeperView.getLeft());
+                    Prefs.setMaxLevel(this, mStoreKeeperView.getLeft());
                     //getPreferences(MODE_PRIVATE).edit().putInt(Common.PREF_KEY2, mStoreKeeperView.getLeft()).commit();
                     break;
             }

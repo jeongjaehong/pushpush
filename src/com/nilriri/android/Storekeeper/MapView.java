@@ -165,15 +165,17 @@ public class MapView extends View {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         mWidth = w;
         mHeight = h;
-        resetItemSize(w, h, oldw, oldh);
+        resetItemSize(w, h, Prefs.getCurLevel(mContext));//, oldw, oldh);
     }
 
-    public void resetItemSize(int w, int h, int oldw, int oldh) {
+    public void resetItemSize(int w, int h, int mLevel) {
+
+        if (w == 0 || h == 0)
+            return;
 
         int difficulty = Prefs.getDifficultly(mContext);
         //getPreferences(MODE_PRIVATE).getInt(Common.PREF_KEY3, Common.MEDIUM);
         //Prefs.getDifficultly(context);
-        int mLevel = Prefs.getMaxLevel(mContext);
 
         int startLevel = 0;
         int endLevel = 0;
@@ -196,12 +198,14 @@ public class MapView extends View {
 
         int resId = startLevel + mLevel - 1;
 
+        Log.d(" resId", "  PlayLevel= " + mLevel);
         Log.d(" resId", "  resId= " + resId);
 
         String mapStr = "";
         if (mLevel <= endLevel) {
             mapStr = mContext.getResources().getString(resId);
         } else {
+            Log.d(" resId", "  Use Ending Map... ");
             mapStr = mContext.getResources().getString(R.string.endingmap);
         }
 
@@ -232,9 +236,10 @@ public class MapView extends View {
         mXTileCount = (int) Math.floor(w / mItemSize);
         mYTileCount = (int) Math.floor(h / mItemSize);
 
-        //Log.d("StoreKeeperView1111", "onTouchEvent: mXTileCount= " + mXTileCount + ", mYTileCount= " + mYTileCount + ", mItemSize= " + mItemSize);
+        Log.d("StoreKeeperView1111", "colCount= " + colCount + ", rowCount= " + rowCount + ", mItemSize= " + mItemSize);
+        Log.d("StoreKeeperView1111", "mXTileCount= " + mXTileCount + ", mYTileCount= " + mYTileCount + ", mItemSize= " + mItemSize);
 
-        if (colCount > mXTileCount || rowCount > mYTileCount) {
+        if (colCount >= mXTileCount || rowCount >= mYTileCount) {
 
             int wsize = (int) Math.floor(w / colCount);
             int hsize = (int) Math.floor(h / rowCount);
@@ -259,7 +264,7 @@ public class MapView extends View {
 
         }
 
-        //Log.d("StoreKeeperView", "onTouchEvent: mXTileCount= " + mXTileCount + ", mYTileCount= " + mYTileCount + ", mItemSize= " + mItemSize);
+        Log.d("StoreKeeperView", "mXTileCount= " + mXTileCount + ", mYTileCount= " + mYTileCount + ", mItemSize= " + mItemSize);
 
         mXOffset = ((w - (mItemSize * mXTileCount)) / 2);
         mYOffset = ((h - (mItemSize * mYTileCount)) / 2);

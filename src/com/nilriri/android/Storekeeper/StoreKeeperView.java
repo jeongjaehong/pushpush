@@ -49,6 +49,7 @@ public class StoreKeeperView extends MapView implements OnCreateContextMenuListe
     private long mLastMove;
 
     private TextView mMsgText;
+    private TextView mInfoText;
 
     private StoreKeeper newStorekeeper = null;
 
@@ -61,11 +62,11 @@ public class StoreKeeperView extends MapView implements OnCreateContextMenuListe
 
     private Handler mHandler;
 
-    private final StoreKeeperMain warehouseman;
+    private final StoreKeeperMain storeKeeperMain;
 
     public StoreKeeperView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.warehouseman = (StoreKeeperMain) context;
+        this.storeKeeperMain = (StoreKeeperMain) context;
         initWarehouseView();
 
     }
@@ -156,6 +157,14 @@ public class StoreKeeperView extends MapView implements OnCreateContextMenuListe
             }
         }
 
+        Cursor c = dao.queryHistory2(Prefs.getDifficultly(storeKeeperMain), mLevel);
+
+        if (c.moveToNext()) {
+            mInfoText.setText("Play Data Exists...");
+        } else {
+            mInfoText.setText("");
+        }
+
         String[] map = MapUtil.Str2Map(mapStr, ",");
 
         for (int x = 0; x < map.length && x < mXTileCount; x++) {
@@ -207,10 +216,6 @@ public class StoreKeeperView extends MapView implements OnCreateContextMenuListe
     }
 
     public void initNewGame(int difficulty) {
-
-        if (this.mWidth > 0) {
-            resetItemSize(this.mWidth, this.mHeight, this.mWidth, this.mHeight);
-        }
 
         mStorekeeper = null;
         newStorekeeper = null;
@@ -271,7 +276,7 @@ public class StoreKeeperView extends MapView implements OnCreateContextMenuListe
 
     }
 
-    public void moveStorekeeper(boolean isPlay) {
+    public boolean moveStorekeeper(boolean isPlay) {
 
         StoreKeeper tmpStorekeeper = mStorekeeper;
 
@@ -304,7 +309,7 @@ public class StoreKeeperView extends MapView implements OnCreateContextMenuListe
                 break;
             }
             default:
-                return;
+                return false;
         }
         // 창고지기의 새로 옮겨갈 위치.
         tmpStorekeeper = new StoreKeeper(mStorekeeper.x + newx, mStorekeeper.y + newy);
@@ -321,9 +326,10 @@ public class StoreKeeperView extends MapView implements OnCreateContextMenuListe
         // 밀려나가야할 아이템이 밀릴수 없거나 다음 이동장소가 벽인경우에는 이동취소.
         if (!isValidMove(oldItem, nextItem)) {
             //Log.e(TAG, "Return...");
-            startAnimation(AnimationUtils.loadAnimation(warehouseman, R.anim.shake));
+            startAnimation(AnimationUtils.loadAnimation(storeKeeperMain, R.anim.shake));
+
             update();
-            return;
+            return false;
         }
 
         PlaySteps play = new PlaySteps();
@@ -337,8 +343,8 @@ public class StoreKeeperView extends MapView implements OnCreateContextMenuListe
             }
             case Common.LINE: {
                 // 벽이 있으면 리턴                
-                startAnimation(AnimationUtils.loadAnimation(warehouseman, R.anim.shake));
-                return;
+                startAnimation(AnimationUtils.loadAnimation(storeKeeperMain, R.anim.shake));
+                return false;
             }
             case Common.HOME: {
                 // 창고.
@@ -407,6 +413,7 @@ public class StoreKeeperView extends MapView implements OnCreateContextMenuListe
             mStorekeeper = newStorekeeper;
             update();
         }
+        return true;
     }
 
     private void undoStorekeeper(PlaySteps undoPlay) {
@@ -434,7 +441,7 @@ public class StoreKeeperView extends MapView implements OnCreateContextMenuListe
     public boolean onKeyDown(int keyCode, KeyEvent msg) {
 
         //Log.d(TAG, "onKeyDown: keycode=" + keyCode + ", event=" + msg);
-        //int difficulty = warehouseman.getPreferences(Context.MODE_PRIVATE).getInt(Common.PREF_KEY3, Common.MEDIUM);
+        //int difficulty = storeKeeperMain.getPreferences(Context.MODE_PRIVATE).getInt(Common.PREF_KEY3, Common.MEDIUM);
         int difficulty = Prefs.getDifficultly(this.getContext());
 
         startGame(difficulty, mLevel, 0);
@@ -460,7 +467,7 @@ public class StoreKeeperView extends MapView implements OnCreateContextMenuListe
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         //Log.e(TAG, "onSizeChanged:w=" + w + ",h=" + h + ",oldw=" + oldw + ",oldh=" + oldh);
-        //int difficulty = warehouseman.getPreferences(Context.MODE_PRIVATE).getInt(Common.PREF_KEY3, Common.MEDIUM);
+        //int difficulty = storeKeeperMain.getPreferences(Context.MODE_PRIVATE).getInt(Common.PREF_KEY3, Common.MEDIUM);
         int difficulty = Prefs.getDifficultly(this.getContext());
 
         drawMap(difficulty);
@@ -513,6 +520,8 @@ public class StoreKeeperView extends MapView implements OnCreateContextMenuListe
             this.mLevel = 1;
             this.mDifficulty = 0;//EASY
         }
+
+        Prefs.setCurLevel(this.storeKeeperMain, this.mLevel);
     }
 
     public int getDifficulty() {
@@ -542,8 +551,9 @@ public class StoreKeeperView extends MapView implements OnCreateContextMenuListe
 
     }
 
-    public void setMsgView(TextView newView) {
-        mMsgText = newView;
+    public void setMsgView(TextView msgView, TextView infoView) {
+        mMsgText = msgView;
+        mInfoText = infoView;
     }
 
     public void startGame(int difficulty, int maxLevel, int offSet) {
@@ -558,13 +568,17 @@ public class StoreKeeperView extends MapView implements OnCreateContextMenuListe
             }
         }
 
+        resetItemSize(getWidth(), getHeight(), this.mLevel);
         if (mMode == READY | mMode == LOSE) {
             //Log.e(TAG, "startGame()...");
+
             initNewGame(difficulty);
             setMode(RUNNING);
+
             update();
         } else if (mMode == PAUSE) {
             setMode(RUNNING);
+
             update();
         }
     }
@@ -581,9 +595,13 @@ public class StoreKeeperView extends MapView implements OnCreateContextMenuListe
     }
 
     private StoreKeeper storekeeperArrayToStorekeeper(int[] rawArray) {
-        StoreKeeper storekeeper = new StoreKeeper(rawArray[0], rawArray[1]);
+        if (rawArray.length > 1) {
+            StoreKeeper storekeeper = new StoreKeeper(rawArray[0], rawArray[1]);
 
-        return storekeeper;
+            return storekeeper;
+        } else {
+            return null;
+        }
     }
 
     private int[] StorekeeperToArray(StoreKeeper storekeeper) {
@@ -609,11 +627,11 @@ public class StoreKeeperView extends MapView implements OnCreateContextMenuListe
             invalidate();
 
             if (isClearLevel()) {
-                //warehouseman.nextLevelStart(getLevel() + 1);
+                //storeKeeperMain.nextLevelStart(getLevel() + 1);
 
-                Intent i = new Intent(warehouseman, Alert.class);
+                Intent i = new Intent(storeKeeperMain, Alert.class);
 
-                warehouseman.startActivity(i);
+                storeKeeperMain.startActivity(i);
 
                 mPlayStepList.clear();
 
@@ -626,8 +644,8 @@ public class StoreKeeperView extends MapView implements OnCreateContextMenuListe
                 int clearLevel = getLevel() + 1;
                 switch (getDifficulty()) {
                     case 0:
-                        //if (clearLevel > warehouseman.getPreferences(StoreKeeperMain.MODE_PRIVATE).getInt(Common.PREF_KEY0, 1))
-                        //warehouseman.getPreferences(StoreKeeperMain.MODE_PRIVATE).edit().putInt(Common.PREF_KEY0, clearLevel).commit();
+                        //if (clearLevel > storeKeeperMain.getPreferences(StoreKeeperMain.MODE_PRIVATE).getInt(Common.PREF_KEY0, 1))
+                        //storeKeeperMain.getPreferences(StoreKeeperMain.MODE_PRIVATE).edit().putInt(Common.PREF_KEY0, clearLevel).commit();
                         if (clearLevel > Prefs.getMaxLevel(this.getContext()))
                             Prefs.setMaxLevel(this.getContext(), clearLevel);
                         break;

@@ -13,7 +13,7 @@ import android.util.Log;
 import com.nilriri.android.PlayStep;
 import com.nilriri.android.PlaySteps;
 import com.nilriri.android.Storekeeper.dao.DaoImpl;
-import com.nilriri.android.Storekeeper.dao.Constants.BSite1;
+import com.nilriri.android.Storekeeper.dao.Constants.HistoryData;
 
 public class HistoryDaoImpl extends DaoImpl {
 
@@ -24,12 +24,12 @@ public class HistoryDaoImpl extends DaoImpl {
     }
 
     public void delete(int mVersion, Long id) {
-        String sql = "DELETE FROM " + BSite1.VERSION_TABLE_NAME + " WHERE " + BSite1._ID + "=" + id;
+        String sql = "DELETE FROM " + HistoryData.HISTORY_TABLE_NAME + " WHERE " + HistoryData._ID + "=" + id;
         getWritableDatabase().execSQL(sql);
     }
 
     public void deleteAll(int mVersion) {
-        String sql = "DELETE FROM " + BSite1.VERSION_TABLE_NAME;
+        String sql = "DELETE FROM " + HistoryData.HISTORY_TABLE_NAME;
         getWritableDatabase().execSQL(sql);
     }
 
@@ -44,7 +44,7 @@ public class HistoryDaoImpl extends DaoImpl {
 
         db.beginTransaction();
 
-        db.execSQL("DELETE FROM " + BSite1.VERSION_TABLE_NAME + " WHERE " + BSite1.DIFFICULTY + " = " + difficulty + " AND " + BSite1.LEVEL + "=" + level + " ");
+        db.execSQL("DELETE FROM " + HistoryData.HISTORY_TABLE_NAME + " WHERE " + HistoryData.DIFFICULTY + " = " + difficulty + " AND " + HistoryData.LEVEL + "=" + level + " ");
 
         for (int row = 0; row < limit; row++) {
 
@@ -64,7 +64,7 @@ public class HistoryDaoImpl extends DaoImpl {
                 val.put("before", step.before);
                 val.put("after", step.after);
 
-                db.insert(BSite1.VERSION_TABLE_NAME, null, val);
+                db.insert(HistoryData.HISTORY_TABLE_NAME, null, val);
             }
         }
         db.setTransactionSuccessful();
@@ -84,9 +84,9 @@ public class HistoryDaoImpl extends DaoImpl {
         StringBuffer query = new StringBuffer();
         query.append("SELECT  ");
         query.append("   distinct seq  ");
-        query.append("FROM " + BSite1.VERSION_TABLE_NAME + " ");
-        query.append("WHERE " + BSite1.DIFFICULTY + " = ? ");
-        query.append("AND " + BSite1.LEVEL + " = ? ");
+        query.append("FROM " + HistoryData.HISTORY_TABLE_NAME + " ");
+        query.append("WHERE " + HistoryData.DIFFICULTY + " = ? ");
+        query.append("AND " + HistoryData.LEVEL + " = ? ");
         query.append("ORDER BY SEQ ");
 
         String selectionArgs[] = new String[] { difficulty + "", level + "" };
@@ -97,10 +97,10 @@ public class HistoryDaoImpl extends DaoImpl {
             StringBuffer query2 = new StringBuffer();
             query2.append("SELECT  ");
             query2.append("     x, y, before, after ");
-            query2.append("FROM " + BSite1.VERSION_TABLE_NAME + " ");
-            query2.append("WHERE " + BSite1.DIFFICULTY + " = ? ");
-            query2.append("AND " + BSite1.LEVEL + " = ? ");
-            query2.append("AND " + BSite1.SEQ + " = ? ");
+            query2.append("FROM " + HistoryData.HISTORY_TABLE_NAME + " ");
+            query2.append("WHERE " + HistoryData.DIFFICULTY + " = ? ");
+            query2.append("AND " + HistoryData.LEVEL + " = ? ");
+            query2.append("AND " + HistoryData.SEQ + " = ? ");
             query2.append("ORDER BY STEP ");
 
             String selectionArgs2[] = new String[] { difficulty + "", level + "", cursor.getString(0) };
@@ -129,10 +129,10 @@ public class HistoryDaoImpl extends DaoImpl {
         StringBuffer query = new StringBuffer();
         query.append("SELECT  ");
         query.append("   x, y  ");
-        query.append("FROM " + BSite1.VERSION_TABLE_NAME + " ");
-        query.append("WHERE " + BSite1.DIFFICULTY + " = ? ");
-        query.append("AND " + BSite1.LEVEL + " = ? ");
-        query.append("AND " + BSite1.AFTER + " = 4 ");
+        query.append("FROM " + HistoryData.HISTORY_TABLE_NAME + " ");
+        query.append("WHERE " + HistoryData.DIFFICULTY + " = ? ");
+        query.append("AND " + HistoryData.LEVEL + " = ? ");
+        query.append("AND " + HistoryData.AFTER + " = 4 ");
         query.append("ORDER BY SEQ ");
 
         String selectionArgs[] = new String[] { difficulty + "", level + "" };

@@ -9,12 +9,20 @@
 
 
 
-	<TextView android:id="@+id/msg" android:layout_width="fill_parent"
-		android:layout_height="wrap_content" android:layout_gravity="bottom"
-		android:gravity="right" android:textColor="@color/orange_color"
-		android:layout_marginBottom="10dip" android:layout_marginRight="10dip"
-		android:textSize="12sp" />
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:orientation="horizontal" android:layout_gravity="bottom"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:layout_alignParentBottom="true" android:layout_marginBottom="10dip"
+		android:layout_marginRight="10dip">
 
+		<TextView android:id="@+id/info" android:layout_width="100dip"
+			android:layout_height="wrap_content" android:gravity="left"
+			android:textColor="@color/orange_color" android:textSize="12sp" />
 
+		<TextView android:id="@+id/msg" android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:gravity="right"
+			android:textColor="@color/orange_color" android:textSize="12sp" />
+
+	</LinearLayout>
 
 </FrameLayout>
