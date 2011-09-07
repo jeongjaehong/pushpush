@@ -6,19 +6,19 @@ import android.view.View;
 import android.widget.TextView;
 
 public class Alert extends Activity {
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.alert);
-        TextView v = (TextView) findViewById(R.id.alert_content);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.alert);
+		TextView v = (TextView) findViewById(R.id.alert_content);
 
-        v.setOnClickListener(new View.OnClickListener() {
+		v.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
-    }
+			@Override
+			public void onClick(View view) {
+				finish();
+			}
+		});
+	}
 
 }
