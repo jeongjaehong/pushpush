@@ -106,8 +106,6 @@ public class StoreKeeperMain extends Activity implements OnTouchListener {
 			if (map != null) {
 				mStoreKeeperView.restoreState(map);
 
-				// ����� �� �����Ͱ� ���������� ������� ������ ó������ �ٽ�
-				// �����ϵ��� �Ѵ�.
 				if (this.mStoreKeeperView.mStorekeeper == null) {
 					StartGame(Prefs.getDifficultly(this), Prefs
 							.getMaxLevel(this), 0);
@@ -171,7 +169,6 @@ public class StoreKeeperMain extends Activity implements OnTouchListener {
 					break;
 				}
 			}
-			// �ʱ�ȭ.
 			oldEvent.set(event.getX(), event.getY());
 			if (!mStoreKeeperView.moveStorekeeper(false)) {
 				vi.vibrate(new long[] { 250, 50, 100 }, 2);
@@ -264,27 +261,12 @@ public class StoreKeeperMain extends Activity implements OnTouchListener {
 				int clearLevel = mStoreKeeperView.getLevel() + 1;
 
 				if (maxLevel >= clearLevel) {
-					switch (difficulty) {
-					case 0:
-						Prefs.setMaxLevel(this, clearLevel);
-						// getPreferences(MODE_PRIVATE).edit().putInt(Common.PREF_KEY0,
-						// clearLevel).commit();
-						break;
-					case 1:
-						Prefs.setMaxLevel(this, clearLevel);
-						// getPreferences(MODE_PRIVATE).edit().putInt(Common.PREF_KEY1,
-						// clearLevel).commit();
-						break;
-					case 2:
-						Prefs.setMaxLevel(this, clearLevel);
-						// getPreferences(MODE_PRIVATE).edit().putInt(Common.PREF_KEY2,
-						// clearLevel).commit();
-						break;
-					}
+					Prefs.setMaxLevel(this, clearLevel);
 				}
 				StartGame(difficulty, maxLevel, 1);
 			} else {
-				StartGame(difficulty, mStoreKeeperView.getLevel() + 1, 1);
+			    Prefs.setMaxLevel(this, mStoreKeeperView.getLevel() + 1);
+                StartGame(difficulty, mStoreKeeperView.getLevel() + 1, 1);
 			}
 
 			return true;
