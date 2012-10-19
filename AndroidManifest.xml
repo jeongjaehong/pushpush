@@ -1,35 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="com.nilriri.android.Storekeeper" android:versionName="0.0.4" android:versionCode="17">
+    package="com.nilriri.android.Storekeeper"
+    android:sharedUserId="jeongjaehong"
+    android:sharedUserLabel="@string/sharedUserLabel"
+    android:versionCode="14"
+    android:versionName="0.0.3" >
 
-	<application android:icon="@drawable/icon"
-		android:debuggable="false" android:label="Storekeeper">
+    <uses-configuration />
 
-		<activity android:name="StoreKeeperMain"
-			android:configChanges="keyboardHidden|orientation"
-			android:screenOrientation="sensor" android:multiprocess="false">
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN" />
-				<category android:name="android.intent.category.LAUNCHER" />
-			</intent-filter>
-		</activity>
+    <protected-broadcast />
 
-		<activity android:name=".About" android:label="@string/about_title"
-			android:theme="@android:style/Theme.Dialog">
-		</activity>
-		<activity android:name=".Alert" android:label="@string/alert_title"
-			android:theme="@android:style/Theme.Dialog">
-		</activity>
+    <uses-feature />
 
-		<activity android:name=".Prefs" android:label="@string/settings_title">
-		</activity>
+    <application
+        android:allowBackup="true"
+        android:allowClearUserData="true"
+        android:allowTaskReparenting="true"
+        android:debuggable="false"
+        android:enabled="true"
+        android:hasCode="true"
+        android:icon="@drawable/icon"
+        android:killAfterRestore="true"
+        android:label="Storekeeper"
+        android:persistent="true"
+        android:restoreNeedsApplication="true"
+        android:testOnly="false" >
+        <activity
+            android:name="StoreKeeperMain"
+            android:configChanges="keyboardHidden|orientation"
+            android:multiprocess="false"
+            android:screenOrientation="sensor" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-	</application>
-	<uses-sdk android:minSdkVersion="7" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".About"
+            android:label="@string/about_title"
+            android:theme="@android:style/Theme.Dialog" >
+        </activity>
+        <activity
+            android:name=".Alert"
+            android:label="@string/alert_title"
+            android:theme="@android:style/Theme.Dialog" >
+        </activity>
+        <activity
+            android:name=".Prefs"
+            android:label="@string/settings_title" >
+        </activity>
+    </application>
 
+    <uses-sdk android:minSdkVersion="7" />
 
-	<uses-permission android:name="android.permission.VIBRATE"></uses-permission>
-	<uses-permission android:name="android.permission.WRITE_OWNER_DATA"></uses-permission>
-	<uses-permission android:name="android.permission.CLEAR_APP_USER_DATA"></uses-permission>
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:resizeable="true"
+        android:smallScreens="true" >
+    </supports-screens>
 
-</manifest> 
+    <uses-permission android:name="android.permission.VIBRATE" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.WRITE_OWNER_DATA" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.CLEAR_APP_USER_DATA" >
+    </uses-permission>
+
+</manifest>

@@ -58,6 +58,7 @@
 	<string name="title_list_preference">Icon Size</string>
 	<string name="summary_list_preference">In order to apply the changes and restart.</string>
 	<string name="dialog_title_list_preference">List of sizes available</string>
+	<string name="sharedUserLabel">jeongjaehong@gmail.com</string>
 
 
 </resources>
