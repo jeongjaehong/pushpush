@@ -247,7 +247,7 @@ public class StoreKeeperMain extends Activity implements OnTouchListener {
                 } else {
                     // 해당 스테이즈 클리어 하지 않았더라도 다음 단계로 넘어가도록 한다.
                     Prefs.setMaxLevel(this, mStoreKeeperView.getLevel() + 1);
-                    
+
                     StartGame(difficulty, mStoreKeeperView.getLevel() + 1, 1);
                 }
                 return true;
