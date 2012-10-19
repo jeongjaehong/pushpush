@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.nilriri.android.Storekeeper"
-    android:sharedUserId="jeongjaehong"
-    android:sharedUserLabel="@string/sharedUserLabel"
     android:versionCode="20"
     android:versionName="0.0.9" >
 

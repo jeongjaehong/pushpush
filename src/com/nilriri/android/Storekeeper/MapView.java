@@ -92,7 +92,7 @@ public class MapView extends View {
         for (int i = 0; i < maps.length; i++) {
             String mapData = ("x" + maps[i]).trim();
             if (!"x".equals(mapData) || isFirstEmpty) {
-                isFirstEmpty = false;
+                if (!"x".equals(mapData)) isFirstEmpty = false;
                 rowCount += 1;
             }
 
@@ -224,7 +224,7 @@ public class MapView extends View {
         for (int i = 0; i < maps.length; i++) {
             String mapData = ("x" + maps[i]).trim();
             if (!"x".equals(mapData) || isFirstEmpty) {
-                isFirstEmpty = false;
+                if (!"x".equals(mapData)) isFirstEmpty = false;
                 rowCount += 1;
             }
 
