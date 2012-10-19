@@ -2,8 +2,8 @@ package com.nilriri.android.Storekeeper.dao;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.nilriri.android.Storekeeper.R;
