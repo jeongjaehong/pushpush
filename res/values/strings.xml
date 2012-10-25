@@ -59,6 +59,25 @@
 	<string name="summary_list_preference">In order to apply the changes and restart.</string>
 	<string name="dialog_title_list_preference">List of sizes available</string>
 	<string name="sharedUserLabel">jeongjaehong@gmail.com</string>
+	<string name="backfile_not_found">백업파일이 없습니다.</string>
+	<string name="backupfile_can_not_read">백업파일을 읽을 수 없습니다.</string>
+	<string name="import_successful_msg">Import successful!</string>
+	<string name="import_failed_msg">"Import failed - "</string>
+	<string name="importing_database_msg">Importing database...</string>
+	<string name="importing_dialog_msg">Importing database...</string>
+	<string name="export_failed">Export failed</string>
+	<string name="export_successful_msg">Export successful!</string>
+	<string name="exporting_database_msg">Exporting database...</string>
+	<string name="external_storage_is_not_available_unable_to_export_data_">External storage is not available, unable to export data.</string>
+	<string name="are_you_sure_this_will_overwrite_any_existing_backup_data_">Are you sure (this will overwrite any existing backup data)?</string>
+	<string name="yes">Yes</string>
+	<string name="are_you_sure_this_will_overwrite_existing_current_data_">Are you sure (this will overwrite existing current data)?</string>
+	<string name="importing_database_from_external_storage_and_resetting_database">importing database from external storage, and resetting database</string>
+	<string name="pushpushiii">PushPushIII</string>
+	<string name="data_manage">Data Manage</string>
+	<string name="about_help">About &amp; Help</string>
+	<string name="dragmove_msg">Drag and move you want to use?</string>
+	<string name="drag_move_title">Drag Move</string>
 
 
 </resources>

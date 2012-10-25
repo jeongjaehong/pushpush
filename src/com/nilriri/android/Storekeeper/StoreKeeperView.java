@@ -12,7 +12,6 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.View.OnCreateContextMenuListener;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,11 +21,9 @@ import com.nilriri.android.MapItem;
 import com.nilriri.android.PlayStep;
 import com.nilriri.android.PlaySteps;
 import com.nilriri.android.StoreKeeper;
-import com.nilriri.android.Storekeeper.dao.Constants;
 
-public class StoreKeeperView extends MapView implements OnCreateContextMenuListener {
+public class StoreKeeperView extends MapView {
 
-    private HistoryDaoImpl dao = new HistoryDaoImpl(getContext(), Constants.DATABASE_NAME, null, Constants.DATABASE_VERSION);
     // 게임의 상태정보
     private int mMode = READY;
     private static final int PLAYBAKLIMIT = 6;
@@ -62,11 +59,11 @@ public class StoreKeeperView extends MapView implements OnCreateContextMenuListe
 
     private Handler mHandler;
 
-    private final StoreKeeperMain storeKeeperMain;
+    private final Main main;
 
     public StoreKeeperView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.storeKeeperMain = (StoreKeeperMain) context;
+        this.main = (Main) context;
         initWarehouseView();
 
     }
@@ -157,9 +154,7 @@ public class StoreKeeperView extends MapView implements OnCreateContextMenuListe
             }
         }
 
-        Cursor c = dao.queryHistory2(Prefs.getDifficultly(storeKeeperMain), mLevel);
-
-        if (c.moveToNext()) {
+        if (this.main.isExistsHistory(Prefs.getDifficultly(this.main), mLevel)) {
             mInfoText.setText("Play Data Exists...");
         } else {
             mInfoText.setText("");
@@ -326,7 +321,9 @@ public class StoreKeeperView extends MapView implements OnCreateContextMenuListe
         // 밀려나가야할 아이템이 밀릴수 없거나 다음 이동장소가 벽인경우에는 이동취소.
         if (!isValidMove(oldItem, nextItem)) {
             //Log.e(TAG, "Return...");
-            startAnimation(AnimationUtils.loadAnimation(storeKeeperMain, R.anim.shake));
+            if (!this.main.isDragMove) {
+                startAnimation(AnimationUtils.loadAnimation(main, R.anim.shake));
+            }
 
             update();
             return false;
@@ -342,8 +339,10 @@ public class StoreKeeperView extends MapView implements OnCreateContextMenuListe
                 break;
             }
             case Common.LINE: {
-                // 벽이 있으면 리턴                
-                startAnimation(AnimationUtils.loadAnimation(storeKeeperMain, R.anim.shake));
+                // 벽이 있으면 리턴      
+                if (!this.main.isDragMove) {
+                    startAnimation(AnimationUtils.loadAnimation(main, R.anim.shake));
+                }
                 return false;
             }
             case Common.HOME: {
@@ -441,7 +440,7 @@ public class StoreKeeperView extends MapView implements OnCreateContextMenuListe
     public boolean onKeyDown(int keyCode, KeyEvent msg) {
 
         //Log.d(TAG, "onKeyDown: keycode=" + keyCode + ", event=" + msg);
-        //int difficulty = storeKeeperMain.getPreferences(Context.MODE_PRIVATE).getInt(Common.PREF_KEY3, Common.MEDIUM);
+        //int difficulty = main.getPreferences(Context.MODE_PRIVATE).getInt(Common.PREF_KEY3, Common.MEDIUM);
         //int difficulty = Prefs.getDifficultly(this.getContext());
 
         //startGame(difficulty, mLevel, 0);
@@ -467,7 +466,7 @@ public class StoreKeeperView extends MapView implements OnCreateContextMenuListe
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         //Log.e(TAG, "onSizeChanged:w=" + w + ",h=" + h + ",oldw=" + oldw + ",oldh=" + oldh);
-        //int difficulty = storeKeeperMain.getPreferences(Context.MODE_PRIVATE).getInt(Common.PREF_KEY3, Common.MEDIUM);
+        //int difficulty = main.getPreferences(Context.MODE_PRIVATE).getInt(Common.PREF_KEY3, Common.MEDIUM);
         int difficulty = Prefs.getDifficultly(this.getContext());
 
         drawMap(difficulty);
@@ -501,14 +500,13 @@ public class StoreKeeperView extends MapView implements OnCreateContextMenuListe
     public void playHistory(int difficulty, int level) {
 
         this.setMode(RUNNING);
-        mHistoryCursor = dao.queryHistory2(difficulty, level);
 
-        if (mHistoryCursor == null || mHistoryCursor.getCount() == 0) {
-            Toast.makeText(getContext(), getResources().getString(R.string.msg_notfoundsavedata), Toast.LENGTH_LONG).show();
-        } else {
-
+        if (this.main.isExistsHistory(difficulty, level)) {
             mHandler = new Handler();
             mHistoryPlayer.run();
+        } else {
+            Toast.makeText(getContext(), getResources().getString(R.string.msg_notfoundsavedata), Toast.LENGTH_LONG).show();
+
         }
     }
 
@@ -521,7 +519,7 @@ public class StoreKeeperView extends MapView implements OnCreateContextMenuListe
             this.mDifficulty = 0;//EASY
         }
 
-        Prefs.setCurLevel(this.storeKeeperMain, this.mLevel);
+        Prefs.setCurLevel(this.main, this.mLevel);
     }
 
     public int getDifficulty() {
@@ -627,25 +625,25 @@ public class StoreKeeperView extends MapView implements OnCreateContextMenuListe
             invalidate();
 
             if (isClearLevel()) {
-                //storeKeeperMain.nextLevelStart(getLevel() + 1);
+                //main.nextLevelStart(getLevel() + 1);
 
-                Intent i = new Intent(storeKeeperMain, Alert.class);
+                Intent i = new Intent(main, Alert.class);
 
-                storeKeeperMain.startActivity(i);
+                main.startActivity(i);
 
                 mPlayStepList.clear();
 
-                //TODO: SAVE
-                if (mPlayHistory.size() > 2)
-                    dao.insert(mDifficulty, this.getLevel(), mPlayHistory);
+                if (mPlayHistory.size() > 2) {
+                    this.main.insertHistory(mDifficulty, this.getLevel(), mPlayHistory);
+                }
 
                 mPlayHistory.clear();
 
                 int clearLevel = getLevel() + 1;
                 switch (getDifficulty()) {
                     case 0:
-                        //if (clearLevel > storeKeeperMain.getPreferences(StoreKeeperMain.MODE_PRIVATE).getInt(Common.PREF_KEY0, 1))
-                        //storeKeeperMain.getPreferences(StoreKeeperMain.MODE_PRIVATE).edit().putInt(Common.PREF_KEY0, clearLevel).commit();
+                        //if (clearLevel > main.getPreferences(Main.MODE_PRIVATE).getInt(Common.PREF_KEY0, 1))
+                        //main.getPreferences(Main.MODE_PRIVATE).edit().putInt(Common.PREF_KEY0, clearLevel).commit();
                         if (clearLevel > Prefs.getMaxLevel(this.getContext()))
                             Prefs.setMaxLevel(this.getContext(), clearLevel);
                         break;

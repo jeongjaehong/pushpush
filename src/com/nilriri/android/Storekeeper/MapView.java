@@ -105,25 +105,6 @@ public class MapView extends View {
 
         mItemSize = Prefs.getIconsize(context);
 
-        //Log.d("RRRRRRRRRRR", " maxCount= " + maxCount + ", rowCount= " + rowCount + ", mItemSize= " + mItemSize);
-        //Log.d("XXXXXXXXXXXX", " mXTileCount= " + mXTileCount + ", mYTileCount= " + mYTileCount + ", mItemSize= " + mItemSize);
-        /*
-        mXTileCount = (int) Math.floor(this.getWidth() / mItemSize);
-        mYTileCount = (int) Math.floor(this.getHeight() / mItemSize);
-        if (maxCount > mXTileCount || maxCount > mYTileCount) {
-
-            mItemSize = (int) Math.floor(this.getWidth() / maxCount);
-
-            String msg = mContext.getResources().getString(R.string.change_iconsize);
-            msg += " (" + mItemSize + " x " + mItemSize + ") ";
-            Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show();
-
-            mXTileCount = (int) Math.floor(this.getWidth() / mItemSize);
-            mYTileCount = (int) Math.floor(this.getHeight() / mItemSize);
-
-        }
-        */
-
     }
 
     public void clearMap() {
@@ -253,10 +234,6 @@ public class MapView extends View {
             // 둘 중 더 적은 사이즈를 사용한다.
             mItemSize = wsize > hsize ? hsize : wsize;
 
-            String msg = mContext.getResources().getString(R.string.change_iconsize);
-            msg += " (" + mItemSize + " x " + mItemSize + ") ";
-            Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show();
-
             mXTileCount = (int) Math.floor(w / mItemSize);
             mYTileCount = (int) Math.floor(h / mItemSize);
 
@@ -296,7 +273,6 @@ public class MapView extends View {
             //Log.d("TTTTTTTTT", " x= " + x + ", y= " + y);
 
             mMap[x][y] = tileindex;
-
         }
     }
 

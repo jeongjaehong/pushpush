@@ -21,6 +21,10 @@ public class Prefs extends PreferenceActivity {
     private static final boolean OPT_MUSIC_DEF = false;
     private static final String OPT_PLAYBACK = "playback";
     private static final boolean OPT_PLAYBACK_DEF = true;
+    private static final String OPT_DRAGMOVE = "dragmove";
+    private static final boolean OPT_DRAGMOVE_DEF = false;
+    private static final String OPT_MOVEHANDLE = "movehandle";
+    private static final boolean OPT_MOVEHANDLE_DEF = false;
     private static final String OPT_ICONSIZE = "iconsize";
     private static final String OPT_ICONSIZE_DEF = "24";
 
@@ -31,12 +35,18 @@ public class Prefs extends PreferenceActivity {
 
     public static final String PREF_KEY4 = "WarehousemanCurLeve";
 
-    /** Get the current value of the hints option */
     public static boolean getPlayback(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(OPT_PLAYBACK, OPT_PLAYBACK_DEF);
     }
 
-    /** Get the current value of the music option */
+    public static boolean getDragMove(Context context) {
+        return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(OPT_DRAGMOVE, OPT_DRAGMOVE_DEF);
+    }
+
+    public static boolean getMoveHandle(Context context) {
+        return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(OPT_MOVEHANDLE, OPT_MOVEHANDLE_DEF);
+    }
+
     public static boolean getMusic(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(OPT_MUSIC, OPT_MUSIC_DEF);
     }

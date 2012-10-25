@@ -26,4 +26,5 @@ public class OldEvent {
     public String toString() {
         return "x=" + this.x + ",y=" + this.y;
     }
+
 }
