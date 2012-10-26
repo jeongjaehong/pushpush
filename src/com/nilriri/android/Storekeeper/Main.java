@@ -126,13 +126,11 @@ public class Main extends Activity implements OnTouchListener {
 
                 break;
             case MotionEvent.ACTION_DOWN:
-                if (Prefs.getDragMove(this)) {
+                if (isDragMove) {
 
-                    if (oldEvent.getX() == 0 && oldEvent.getY() == 0) {
-                        Log.d(AppConst.TAG, "initilize...");
-                        oldEvent.set(event.getX(), event.getY());
-                        return true;
-                    }
+                    Log.d(AppConst.TAG, "initilize...");
+                    oldEvent.set(event.getX(), event.getY());
+                    return true;
 
                 } else {
                     oldEvent.set(event.getX(), event.getY());
@@ -160,7 +158,7 @@ public class Main extends Activity implements OnTouchListener {
                     case R.id.mainmapview:
 
                         if (isDragMove) {
-                            oldEvent.set(0, 0);
+                            oldEvent.set(event.getX(), event.getY());
                             return true;
                         }
 
@@ -199,6 +197,7 @@ public class Main extends Activity implements OnTouchListener {
                         break;
                 }
 
+                oldEvent.set(event.getX(), event.getY());
                 if (!mStoreKeeperView.moveStorekeeper(false)) {
                     vi.vibrate(new long[] { 250, 50, 100 }, 2);
                 }
@@ -314,7 +313,7 @@ public class Main extends Activity implements OnTouchListener {
 
         this.isDragMove = Prefs.getDragMove(this);
 
-        if (!Prefs.getMoveHandle(this)) {
+        if (Prefs.getMoveHandle(this)) {
             findViewById(R.id.movehandle).setVisibility(View.VISIBLE);
             isDragMove = false;
         } else {

@@ -18,8 +18,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.nilriri.android.StoreKeeper;
-import com.nilriri.android.Storekeeper.R;
 import com.nilriri.android.Storekeeper.dao.AppConst;
 import com.nilriri.android.Storekeeper.dao.DataHelper;
 import com.nilriri.android.Storekeeper.dao.FileUtil;
@@ -36,7 +34,6 @@ public class ManageData extends Activity {
 
     private Button exportDbToSdButton;
     private Button importDbFromSdButton;
-    private Button clearDbButton;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -53,7 +50,7 @@ public class ManageData extends Activity {
                     public void onClick(DialogInterface arg0, int arg1) {
                         if (isExternalStorageAvail()) {
                             new ExportDatabaseTask().execute();
-                            ManageData.this.startActivity(new Intent(ManageData.this, StoreKeeper.class));
+                            ManageData.this.startActivity(new Intent(ManageData.this, Main.class));
                         } else {
                             Toast.makeText(ManageData.this, R.string.external_storage_is_not_available_unable_to_export_data_, Toast.LENGTH_SHORT).show();
                         }
@@ -107,7 +104,7 @@ public class ManageData extends Activity {
         @Override
         protected Boolean doInBackground(final Void... args) {
 
-            File dbFile = new File(Environment.getDataDirectory() + "/data/"+DataHelper.PACKAGE_NAME + "/databases/" + DataHelper.DATABASE_NAME);
+            File dbFile = new File(Environment.getDataDirectory() + "/data/" + DataHelper.PACKAGE_NAME + "/databases/" + DataHelper.DATABASE_NAME);
 
             File exportDir = new File(Environment.getExternalStorageDirectory(), "PushPushIII");
             if (!exportDir.exists()) {

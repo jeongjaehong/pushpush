@@ -10,8 +10,12 @@ package com.nilriri.android.Storekeeper;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
+import android.preference.Preference;
+import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
+import android.preference.PreferenceScreen;
 
 import com.nilriri.android.Common;
 
@@ -34,6 +38,9 @@ public class Prefs extends PreferenceActivity {
     public static final String PREF_KEY3 = "WarehousemanDifficulty";
 
     public static final String PREF_KEY4 = "WarehousemanCurLeve";
+
+    private CheckBoxPreference movehandle = null;
+    private CheckBoxPreference dragmove = null;
 
     public static boolean getPlayback(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(OPT_PLAYBACK, OPT_PLAYBACK_DEF);
@@ -98,7 +105,6 @@ public class Prefs extends PreferenceActivity {
             case Common.HARD:
                 PreferenceManager.getDefaultSharedPreferences(context).edit().putInt(PREF_KEY2, level).commit();
         }
-
     }
 
     /** Get the current value of the music option */
@@ -106,13 +112,46 @@ public class Prefs extends PreferenceActivity {
         String size = PreferenceManager.getDefaultSharedPreferences(context).getString(OPT_ICONSIZE, OPT_ICONSIZE_DEF);
 
         return Integer.parseInt(size);
-
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         addPreferencesFromResource(R.xml.settings);
+
+        movehandle = (CheckBoxPreference) findPreference(this.OPT_MOVEHANDLE);
+        movehandle.setOnPreferenceClickListener(new myOnPreferenceClickListener());
+
+        dragmove = (CheckBoxPreference) findPreference(this.OPT_DRAGMOVE);
+        dragmove.setOnPreferenceClickListener(new myOnPreferenceClickListener());
+
+    }
+
+    public class myOnPreferenceClickListener implements OnPreferenceClickListener {
+        public boolean onPreferenceClick(Preference preference) {
+            CheckBoxPreference cpf = (CheckBoxPreference) preference;
+
+            if (OPT_MOVEHANDLE.equals(cpf.getKey())) {
+                if (cpf.isChecked()) {
+                    PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putBoolean(OPT_DRAGMOVE, false).commit();
+                    dragmove.setEnabled(false);
+                    dragmove.setChecked(false);
+                } else {
+                    dragmove.setEnabled(true);
+                }
+            } else if (OPT_DRAGMOVE.equals(cpf.getKey())) {
+                if (cpf.isChecked()) {
+                    PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putBoolean(OPT_MOVEHANDLE, false).commit();
+                    movehandle.setEnabled(false);
+                    movehandle.setChecked(false);
+                } else {
+                    movehandle.setEnabled(true);
+                }
+            }
+
+            return false;
+        }
     }
 
 }

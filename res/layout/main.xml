@@ -51,9 +51,7 @@
             android:id="@+id/movehandle"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|center_vertical|center_horizontal|center"
-            android:gravity="center_vertical|center_horizontal|center"
-            android:orientation="horizontal" >
+            android:orientation="vertical" >
 
             <LinearLayout
                 xmlns:android="http://schemas.android.com/apk/res/android"
