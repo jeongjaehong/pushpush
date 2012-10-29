@@ -9,6 +9,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.nilriri.android.Common;
 import com.nilriri.android.PlayStep;
 import com.nilriri.android.PlaySteps;
 import com.nilriri.android.Storekeeper.R;
@@ -182,11 +183,7 @@ public class DataHelper {
     public boolean queryHistoryExists(int difficulty, int level) {
         boolean result = false;
 
-        StringBuilder selection = new StringBuilder();
-        selection.append(HistoryDataColumns.DIFFICULTY).append(" = ? ");
-        selection.append(" AND ").append(HistoryDataColumns.LEVEL).append(" = ? ");
-
-        Cursor c = db.query(HistoryDataColumns.HISTORY_TABLE_NAME, new String[] { HistoryDataColumns._ID }, selection.toString(), new String[] { String.valueOf(difficulty), String.valueOf(level) }, null, null, null, "1");
+        Cursor c = queryHistoryCursor(difficulty, level);
 
         if (c.moveToFirst()) {
             return true;
@@ -198,4 +195,16 @@ public class DataHelper {
         return result;
     }
 
+    public Cursor queryHistoryCursor(int difficulty, int level) {
+
+        StringBuilder whereClause = new StringBuilder();
+        whereClause.append(HistoryDataColumns.DIFFICULTY).append(" = ? ");
+        whereClause.append(" AND ").append(HistoryDataColumns.LEVEL).append(" = ? ");
+        whereClause.append(" AND ").append(HistoryDataColumns.AFTER).append(" = ? ");
+
+        String orderby = HistoryDataColumns.SEQ;
+
+        return db.query(HistoryDataColumns.HISTORY_TABLE_NAME, new String[] { HistoryDataColumns.X, HistoryDataColumns.Y }, whereClause.toString(), new String[] { String.valueOf(difficulty), String.valueOf(level), String.valueOf(Common.MAN) }, null, null, orderby, null);
+
+    }
 }

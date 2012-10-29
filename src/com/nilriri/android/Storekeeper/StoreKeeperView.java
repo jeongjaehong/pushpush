@@ -502,6 +502,7 @@ public class StoreKeeperView extends MapView {
         this.setMode(RUNNING);
 
         if (this.main.isExistsHistory(difficulty, level)) {
+            mHistoryCursor = this.main.getHistory(difficulty, level);
             mHandler = new Handler();
             mHistoryPlayer.run();
         } else {

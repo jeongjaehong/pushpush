@@ -11,6 +11,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.util.Log;
@@ -79,6 +80,9 @@ public class Main extends Activity implements OnTouchListener {
         findViewById(R.id.downarrow).setOnTouchListener(this);
         findViewById(R.id.leftarrow).setOnTouchListener(this);
         findViewById(R.id.rightarrow).setOnTouchListener(this);
+
+        findViewById(R.id.playback).setOnTouchListener(this);
+        findViewById(R.id.reload).setOnTouchListener(this);
 
         oldEvent = new OldEvent(-1, -1);
     }
@@ -155,6 +159,31 @@ public class Main extends Activity implements OnTouchListener {
                     case R.id.downarrow:
                         mStoreKeeperView.mNextDirection = Common.DOWN;
                         break;
+                    case R.id.playback:
+                        //mStoreKeeperView.mNextDirection = Common.DOWN;
+
+                        //TODO: refactoring...
+                        if (Prefs.getPlayback(this)) {
+                            mStoreKeeperView.playBack();
+                        } else {
+
+                            Toast.makeText(this, getResources().getString(R.string.notfound_playback), Toast.LENGTH_LONG).show();
+
+                            mStoreKeeperView.startAnimation(AnimationUtils.loadAnimation(this, R.anim.shake));
+                            return (true);
+                        }
+
+                        return false;
+                    case R.id.reload:
+                        //mStoreKeeperView.mNextDirection = Common.DOWN;
+
+                        //TODO: refactoring...
+                        int difficulty = Prefs.getDifficultly(this);
+                        int maxLevel = Prefs.getMaxLevel(Main.this);
+
+                        StartGame(difficulty, maxLevel, 0);
+
+                        return false;
                     case R.id.mainmapview:
 
                         if (isDragMove) {
@@ -380,6 +409,10 @@ public class Main extends Activity implements OnTouchListener {
 
     public boolean isExistsHistory(int difficulty, int level) {
         return this.application.getDataHelper().queryHistoryExists(difficulty, level);
+    }
+
+    public Cursor getHistory(int difficulty, int level) {
+        return this.application.getDataHelper().queryHistoryCursor(difficulty, level);
     }
 
     public void insertHistory(int difficulty, int level, ArrayList<PlaySteps> history) {
